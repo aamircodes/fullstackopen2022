@@ -8,18 +8,40 @@ const Header = ({ text }) => (
 
 const Button = (props) => <button onClick={props.handleClick}>{props.text}</button>
 
+// const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+//   if (!all) {
+//     return <div>No feedback given</div>
+//   }
+//   return (
+//     <div>
+//       <div>good {good}</div>
+//       <div>neutral {neutral}</div>
+//       <div>bad {bad}</div>
+//       <div>all {all}</div>
+//       <div>average {average} </div>
+//       <div>positive {positive} %</div>
+//     </div>
+//   )
+// }
+
+const StatisticLine = ({ text, value }) => (
+  <div>
+    {text} {value}
+  </div>
+)
+
 const Statistics = ({ good, neutral, bad, all, average, positive }) => {
   if (!all) {
     return <div>No feedback given</div>
   }
   return (
     <div>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {all}</div>
-      <div>average {average} </div>
-      <div>positive {positive} %</div>
+      <StatisticLine text='good' value={good} />
+      <StatisticLine text='neutral' value={neutral} />
+      <StatisticLine text='bad' value={bad} />
+      <StatisticLine text='all' value={all} />
+      <StatisticLine text='average' value={average} />
+      <StatisticLine text='positive' value={positive} />
     </div>
   )
 }
@@ -46,18 +68,6 @@ const App = () => {
           average={(good - bad) / (good + bad + neutral)}
           positive={(good / (good + neutral + bad)) * 100}
         />
-        {/* <Statistics text='good' statistic={good} />
-        <Statistics text='neutral' statistic={neutral} />
-        <Statistics text='bad' statistic={bad} />
-        <Statistics text='all' statistic={good + neutral + bad} />
-        <Statistics text='average' statistic={(good - bad) / (good + bad + neutral)} />
-        <Statistics text='positive' statistic={(good / (good + neutral + bad)) * 100 + ' %'} /> */}
-        {/* <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>all {good + neutral + bad}</p>
-        <p>average {} </p>
-        <p>positive {(good / (good + neutral + bad)) * 100} %</p> */}
       </div>
     </div>
   )
