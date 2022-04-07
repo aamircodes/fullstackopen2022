@@ -4,6 +4,18 @@ const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</
 
 const Header = ({ text }) => <h1>{text}</h1>
 
+const Winner = ({ votes, anecdotes }) => {
+  const highestVotes = Math.max(...votes)
+  const winningAnecdote = anecdotes[votes.indexOf(highestVotes)]
+
+  return (
+    <div>
+      {winningAnecdote}
+      <div>has {highestVotes} votes</div>
+    </div>
+  )
+}
+
 // const Winner = ({ anecdotes, votes }) => {
 //   const highestVotes = Math.max(...votes)
 //   const winningAnecdote = anecdotes[votes.indexOf(highestVotes)]
@@ -39,9 +51,6 @@ const App = () => {
     setVotes(votesArray)
   }
 
-  const highestVotes = Math.max(...votes)
-  const winningAnecdote = anecdotes[votes.indexOf(highestVotes)]
-
   return (
     <div>
       <Header text='Anecdote of the day' />
@@ -50,8 +59,7 @@ const App = () => {
       <Button handleClick={handleVotesClick} text='vote' />
       <Button handleClick={handleSelectClick} text='next anecdote' />
       <Header text='Anecdote with most votes' />
-      <div>{winningAnecdote}</div>
-      <div>has {highestVotes} votes</div>
+      <Winner anecdotes={anecdotes} votes={votes} />
     </div>
   )
 }
