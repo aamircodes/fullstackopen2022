@@ -1,3 +1,9 @@
-const Total = (props) => <b>total number of exercises {props.part[0].exercises + props.part[1].exercises + props.part[2].exercises}</b>
+import React from 'react'
 
+const Total = (props) => {
+  const arr = props.parts.map((p) => p.exercises)
+  const total = arr.reduce((res, current) => res + current)
+
+  return <b>Number of exercises {total}</b>
+}
 export default Total
