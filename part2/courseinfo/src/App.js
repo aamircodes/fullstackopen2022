@@ -1,15 +1,5 @@
 import Course from './components/Course'
 
-const Total = ({ sum }) => <p>Number of exercises {sum}</p>
-
-// const Content = ({ parts }) => (
-//   <>
-//     <Part part={parts[0]} />
-//     <Part part={parts[1]} />
-//     <Part part={parts[2]} />
-//   </>
-// )
-
 const App = () => {
   const course = {
     id: 1,
