@@ -1,10 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import App from './App'
 
-const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+import axios from 'axios'
+
+axios.get('http://localhost:3001/persons').then((response) => {
+  const persons = response.data
+  ReactDOM.render(<App persons={persons} />, document.getElementById('root'))
+})
