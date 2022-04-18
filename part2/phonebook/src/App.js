@@ -53,7 +53,7 @@ const App = () => {
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>Add a new </h2>
       <PersonForm
-        addPerson={addPerson}
+        onSubmit={addPerson}
         newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}

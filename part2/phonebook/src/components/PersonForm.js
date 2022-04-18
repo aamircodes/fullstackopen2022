@@ -1,9 +1,9 @@
 import React from 'react'
 
-const PersonForm = ({ addPerson, newName, handleNameChange, newNumber, handleNumberChange }) => {
+const PersonForm = ({ onSubmit, newName, handleNameChange, newNumber, handleNumberChange }) => {
   return (
     <div>
-      <form onSubmit={addPerson}>
+      <form onSubmit={onSubmit}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
