@@ -1,6 +1,13 @@
+import { useState } from 'react'
 import Country from './Country'
 
 const Countries = ({ filter, countries }) => {
+  const [isShowData, showData] = useState(false)
+
+  const handleClick = () => {
+    showData(!isShowData)
+  }
+
   const filteredCountries =
     filter.trim() === ''
       ? []

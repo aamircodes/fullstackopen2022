@@ -1,24 +1,33 @@
 {
-    "persons":[
-      { 
-        "name": "Arto Hellas", 
-        "number": "040-123456",
-        "id": 1
-      },
-      { 
-        "name": "Ada Lovelace", 
-        "number": "39-44-5323523",
-        "id": 2
-      },
-      { 
-        "name": "Dan Abramov", 
-        "number": "12-43-234345",
-        "id": 3
-      },
-      { 
-        "name": "Mary Poppendieck", 
-        "number": "39-23-6423122",
-        "id": 4
-      }
-    ]
-  }
+  "persons": [
+    {
+      "name": "Arto Hellas",
+      "number": "040-123456",
+      "id": 1
+    },
+    {
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
+      "id": 2
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": 3
+    },
+    {
+      "name": "Mary Poppendieck",
+      "number": "39-23-6423122",
+      "id": 4
+    },
+    {
+      "event ": "> {\n    event.preventDefault();\n    const personObject = {\n      name: newName,\n      number: newNumber\n    };\n\n    if (persons.some(person => person.name === personObject.name)) {\n      window.alert(`${newName} is already added to phonebook`);\n      setNewName('');\n      setNewNumber('');\n      return;\n    }\n\n    axios__WEBPACK_IMPORTED_MODULE_1___default().post('http://localhost:3001/persons', addPerson).then(response => {\n      setPersons(persons.concat(personObject));\n      setNewName('');\n      setNewNumber('');\n    });\n  }",
+      "id": 5
+    },
+    {
+      "name": "111",
+      "number": "111",
+      "id": 6
+    }
+  ]
+}
