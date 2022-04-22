@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/person'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -53,6 +54,7 @@ const App = () => {
       }
 
       personService.create(nameObj).then((returnedPerson) => {
+        setMessage(`${nameObj.name} was successfully added`)
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
@@ -91,6 +93,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
