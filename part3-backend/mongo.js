@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
-  console.log(
-    'Please provide the password as an argument: node mongo.js <password>'
-  );
+  console.log('give password as argument');
   process.exit(1);
 }
 
@@ -22,10 +20,17 @@ const noteSchema = new mongoose.Schema({
 const Note = mongoose.model('Note', noteSchema);
 
 const note = new Note({
-  content: 'HTML is Easy',
+  content: 'CSS is hard',
   date: new Date(),
-  important: true,
+  important: false,
 });
+
+if (false) {
+  note.save().then((result) => {
+    console.log('note saved!');
+    mongoose.connection.close();
+  });
+}
 
 Note.find({}).then((result) => {
   result.forEach((note) => {
@@ -33,8 +38,3 @@ Note.find({}).then((result) => {
   });
   mongoose.connection.close();
 });
-
-// note.save().then((result) => {
-//   console.log('note saved!');
-//   mongoose.connection.close();
-// });
