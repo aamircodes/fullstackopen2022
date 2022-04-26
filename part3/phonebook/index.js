@@ -1,6 +1,18 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+const url = `mongodb+srv://username:Password1@cluster0.x6ugk.mongodb.net/phonebookApp?retryWrites=true&w=majority`;
+
+mongoose.connect(url);
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
+});
+
+const Person = mongoose.model('Person', personSchema);
 
 const app = express();
 
@@ -41,7 +53,9 @@ app.use(
 );
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons);
+  Person.find({}).then((persons) => {
+    response.json(persons);
+  });
 });
 
 app.get('/api/persons/:id', (request, response) => {
