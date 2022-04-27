@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const url = process.env.MONGODB_URI;
 
 console.log('connecting to', url);
-<<<<<<< HEAD
-
-=======
->>>>>>> e3cec161f3229ac14185c8108f0f90bdb9e09dfe
 mongoose
   .connect(url)
   .then((result) => {
@@ -16,13 +12,12 @@ mongoose
     console.log('error connecting to MongoDB:', error.message);
   });
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
-  important: Boolean,
+const personSchema = new mongoose.Schema({
+  name: String,
+  number: String,
 });
 
-noteSchema.set('toJSON', {
+personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -30,4 +25,4 @@ noteSchema.set('toJSON', {
   },
 });
 
-module.exports = mongoose.model('Note', noteSchema);
+module.exports = mongoose.model('Person', personSchema);

@@ -1,4 +1,4 @@
-GET http://localhost:3001/api/2
+GET http://localhost:3001/api/notes/6267f25969b5b52c870d667a
 Content-Type: application/json
 
 {
