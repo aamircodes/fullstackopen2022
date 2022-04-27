@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
+const Note = require('./models/note');
 const cors = require('cors');
 require('dotenv').config();
 const Note = require('./models/note');
