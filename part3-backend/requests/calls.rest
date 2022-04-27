@@ -1,7 +1,7 @@
-GET http://localhost:3001/api/notes/6267f25969b5b52c870d667a
+PUT http://localhost:3001/api/notes/6267f25969b5b52c870d667a
 Content-Type: application/json
 
 {
-    "content": "Test 4",
-    "important": true
+    "content": "CSS is not hard",
+    "important": false
 }

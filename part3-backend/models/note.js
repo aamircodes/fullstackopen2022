@@ -3,10 +3,6 @@ const mongoose = require('mongoose');
 const url = process.env.MONGODB_URI;
 
 console.log('connecting to', url);
-<<<<<<< HEAD
-
-=======
->>>>>>> e3cec161f3229ac14185c8108f0f90bdb9e09dfe
 mongoose
   .connect(url)
   .then((result) => {
