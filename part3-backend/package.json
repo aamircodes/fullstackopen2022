@@ -24,6 +24,7 @@
     "nodemon": "^2.0.15"
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "prettier.semi": false
   }
 }
