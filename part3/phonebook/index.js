@@ -37,12 +37,13 @@ app.get('/api/persons/:id', (request, response, next) => {
 });
 
 app.get('/info', (request, response) => {
-  const totalPersons = persons.length;
   const date = new Date();
-  response.send(
-    `<p>Phonebook has info for ${totalPersons} people </p> 
-     <p>${date}</p>`
-  );
+  Person.find({}).then((persons) => {
+    response.send(
+      `<p>Phonebook has info for ${persons.length} people </p> 
+         <p>${date}</p>`
+    );
+  });
 });
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -83,7 +84,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .then((updatedPerson) => {
       response.json(updatedPerson);
     })
-    .catch((error) => next(error));
+    .catch((error) => next(errorw));
 });
 
 const unknownEndpoint = (request, response) => {
