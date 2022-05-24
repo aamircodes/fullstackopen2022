@@ -75,14 +75,48 @@ test('a blog without title and url field are not added', async () => {
     likes: 2,
   }
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
-    .expect('Content-Type', /application\/json/)
+  await api.post('/api/blogs').send(newBlog).expect(400)
 
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+})
+
+test('succeeds with status code 204 if id is invalid', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+  const titles = blogsAtEnd.map((b) => b.title)
+
+  expect(titles).not.toContain(blogToDelete.title)
+})
+
+test('blog updates', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const newBlog = {
+    title: 'The best blog',
+    author: 'Best person',
+    url: 'bbbb.com',
+    likes: 1000,
+  }
+
+  await api.put(`/api/blogs/${blogToUpdate.id}`).send(newBlog).expect(200)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const updatedBlog = blogsAtEnd[0]
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+  expect(updatedBlog.likes).toBe(1000)
+  expect(updatedBlog.author).toBe('Best person')
 })
 
 afterAll(() => {
