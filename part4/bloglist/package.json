@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest --verbose",
-    "lint": "eslint ."
-
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "lint": "eslint .",
+    "test": "NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "AP",
   "license": "MIT",
@@ -19,9 +18,11 @@
     "mongoose": "^6.3.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.15.0",
     "jest": "^28.1.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.3"
   },
   "jest": {
     "testEnvironment": "node"
