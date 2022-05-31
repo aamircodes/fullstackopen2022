@@ -14,6 +14,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -35,6 +38,7 @@ const App = () => {
         password,
       })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -66,6 +70,44 @@ const App = () => {
     </form>
   )
 
+  const blogForm = () => {
+    return (
+      <form onSubmit={handleAddBlog}>
+        <h2>Creat new</h2>
+        <div>
+          Title:
+          <input type='text' value={title} name='title' onChange={(e) => setTitle(e.target.value)} />
+        </div>
+        <div>
+          Author:
+          <input type='text' value={author} name='author' onChange={(e) => setAuthor(e.target.value)} />
+        </div>
+        <div>
+          Url:
+          <input type='text' value={url} name='url' onChange={(e) => setUrl(e.target.value)} />
+        </div>
+        <button type='submit'>Create</button>
+      </form>
+    )
+  }
+
+  const handleAddBlog = async (e) => {
+    e.preventDefault()
+    alert('added new blog')
+    console.log(title, author, url)
+
+    const newBlogObj = {
+      title,
+      author,
+      url,
+    }
+    const res = await blogService.create(newBlogObj)
+    setBlogs([...blogs, res])
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
   if (user === null) {
     return (
       <div>
@@ -81,11 +123,10 @@ const App = () => {
       <h2>Blogs</h2>
       {user.name} logged in
       <button onClick={handleLogout}>logout</button>
-      <p>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} />
-        ))}
-      </p>
+      {blogForm()}
+      {blogs.map((blog) => (
+        <Blog key={blog.id} blog={blog} />
+      ))}
     </div>
   )
 }
