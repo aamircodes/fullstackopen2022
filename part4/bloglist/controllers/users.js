@@ -1,47 +1,35 @@
 const bcrypt = require('bcrypt')
-const usersRouter = require('express').Router()
+const router = require('express').Router()
 const User = require('../models/user')
 
-usersRouter.get('/', async (request, response) => {
-  const users = await User.find({}).populate('blogs', {
-    url: 1,
-    title: 1,
-    author: 1,
-  })
+router.get('/', async (request, response) => {
+  const users = await User.find({}).populate('blogs', { author: 1, title: 1, url: 1, likes: 1 })
+
   response.json(users)
 })
 
-usersRouter.post('/', async (request, response) => {
-  const users = await User.find({})
-  const body = request.body
+router.post('/', async (request, response) => {
+  const { username, name, password } = request.body
 
-  const usernamesArray = users.map((user) => user.username)
-  if (usernamesArray.includes(body.username)) {
-    return response.status(400).json({ error: 'username should be unique' })
+  if (!password || password.length < 3) {
+    return response.status(400).json({
+      error: 'invalid password',
+    })
   }
 
-  if (body.username === undefined) {
-    return response.status(400).json({ error: 'username missing' })
-  }
-
-  if (body.password === undefined) {
-    return response.status(400).json({ error: 'password missing' })
-  }
-
-  if (body.username.length < 3) {
-    return response.status(400).json({ error: 'username less than 3 characters' })
-  }
-
-  if (body.password.length < 3) {
-    return response.status(400).json({ error: 'password less than 3 characters' })
+  const existingUser = await User.findOne({ username })
+  if (existingUser) {
+    return response.status(400).json({
+      error: 'username must be unique',
+    })
   }
 
   const saltRounds = 10
-  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+  const passwordHash = await bcrypt.hash(password, saltRounds)
 
   const user = new User({
-    username: body.username,
-    name: body.name,
+    username,
+    name,
     passwordHash,
   })
 
@@ -50,4 +38,4 @@ usersRouter.post('/', async (request, response) => {
   response.status(201).json(savedUser)
 })
 
-module.exports = usersRouter
+module.exports = router
