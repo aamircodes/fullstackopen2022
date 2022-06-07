@@ -9,7 +9,7 @@ import Notification from './components/Notification'
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -43,9 +43,9 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setMessage('ERROR wrong username or password')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -73,7 +73,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <form onSubmit={handleAddBlog}>
-        <h2>Creat new</h2>
+        <h2>Create new</h2>
         <div>
           Title:
           <input type='text' value={title} name='title' onChange={(e) => setTitle(e.target.value)} />
@@ -91,28 +91,52 @@ const App = () => {
     )
   }
 
-  const handleAddBlog = async (e) => {
-    e.preventDefault()
-    alert('added new blog')
-    console.log(title, author, url)
+  // const handleAddBlog = async (e) => {
+  //   e.preventDefault()
+  //   console.log(title, author, url)
 
-    const newBlogObj = {
+  //   const newBlogObj = {
+  //     title,
+  //     author,
+  //     url,
+  //   }
+  //   const res = await blogService.create(newBlogObj)
+  //   setBlogs([...blogs, res])
+  //   setTitle('')
+  //   setAuthor('')
+  //   setUrl('')
+  //   // setMessage(`A new blog ${res.title} by ${res.author} was added`)
+  //   setMessage(`A new blog was added`)
+  //   setTimeout(() => {
+  //     setMessage(null)
+  //   }, 5000)
+  // }
+
+  const handleAddBlog = (event) => {
+    event.preventDefault()
+    const blogObject = {
       title,
       author,
       url,
     }
-    const res = await blogService.create(newBlogObj)
-    setBlogs([...blogs, res])
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+
+    blogService.create(blogObject).then((returnedBlog) => {
+      setBlogs(blogs.concat(returnedBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setMessage(`SUCCESS a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    })
   }
 
   if (user === null) {
     return (
       <div>
-        <Notification message={errorMessage} />
         <h2>Log in to application</h2>
+        <Notification message={message} />
         {loginForm()}
       </div>
     )
