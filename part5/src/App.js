@@ -27,6 +27,20 @@ const App = () => {
     }
   }, [])
 
+  const addLike = (blogObject) => {
+    blogService.like(blogObject).then((returnedBlog) => {
+      const updatedBlogs = blogs.map((blog) => {
+        return blog.id === returnedBlog.id
+          ? {
+              likes: returnedBlog.likes + 1,
+              ...returnedBlog,
+            }
+          : blog
+      })
+      setBlogs(updatedBlogs)
+    })
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -103,7 +117,7 @@ const App = () => {
       <button onClick={handleLogout}>logout</button>
       {blogForm()}
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} />
       ))}
     </div>
   )
