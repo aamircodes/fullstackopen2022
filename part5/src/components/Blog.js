@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, addRemove }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const [toggleButtonText, setToggleButtonText] = useState('view')
 
@@ -23,6 +23,10 @@ const Blog = ({ blog, addLike }) => {
     addLike(blog)
   }
 
+  const remove = () => {
+    window.confirm(`Delete ${blog.title} by ${blog.author}?`) && addRemove(blog.id)
+  }
+
   return (
     <div style={blogStyle}>
       <div>
@@ -35,6 +39,8 @@ const Blog = ({ blog, addLike }) => {
         {blog.likes} <button onClick={like}>like</button>
         <br />
         {blog.author}
+        <br />
+        <button onClick={remove}>Remove</button>
       </div>
     </div>
   )
