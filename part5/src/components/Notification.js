@@ -27,13 +27,13 @@ const Notification = ({ message }) => {
 
   if (message.includes('ERROR')) {
     return (
-      <div style={errorStyle} className='error'>
+      <div className='error' style={errorStyle}>
         {message}
       </div>
     )
   } else {
     return (
-      <div style={successStyle} className='error'>
+      <div style={successStyle} className='success'>
         {message}
       </div>
     )
