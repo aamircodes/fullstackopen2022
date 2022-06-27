@@ -35,19 +35,44 @@ describe('Blog app', function () {
   })
 
   describe('When logged in', function () {
-    beforeEach(function () {
+    it('succeeds with correct credentials', function () {
       cy.get('#username').type('aaronpaul')
       cy.get('#password').type('aaron123')
       cy.get('#login-button').click()
+
+      cy.contains('Aaron Paul logged in')
     })
 
-    it.only('A new blog can be created', function () {
+    it('A new blog can be created', function () {
+      cy.get('#username').type('aaronpaul')
+      cy.get('#password').type('aaron123')
+      cy.get('#login-button').click()
       cy.contains('new blog').click()
       cy.get('#blog-title').type('a blog created by cypress')
       cy.get('#blog-author').type('Cypress Test')
       cy.get('#blog-url').type('/my-test-url/')
       cy.get('#create-blog-button').click()
       cy.contains('a blog created by cypress')
+    })
+
+    it('blog exists', function () {
+      cy.get('#username').type('aaronpaul')
+      cy.get('#password').type('aaron123')
+      cy.get('#login-button').click()
+      cy.contains('a blog created by cypress')
+    })
+
+    it('blog can be liked', function () {
+      cy.get('#username').type('aaronpaul')
+      cy.get('#password').type('aaron123')
+      cy.get('#login-button').click()
+
+      cy.contains('new blog').parent().as('blog')
+      cy.get('@blog').contains('view').click()
+
+      cy.get('@blog').contains('like').click()
+
+      cy.get('@blog').should('contain', '1')
     })
   })
 })
