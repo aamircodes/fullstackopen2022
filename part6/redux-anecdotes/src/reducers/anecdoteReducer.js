@@ -9,7 +9,7 @@ const anecdotesAtStart = [
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
+export const asObject = (anecdote) => {
   return {
     content: anecdote,
     id: getId(),
@@ -32,6 +32,8 @@ const reducer = (state = initialState, action) => {
         votes: anecdoteToChange.votes + 1,
       }
       return state.map((anecdote) => (anecdote.id !== id ? anecdote : changedAnecdote))
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
     default:
       return state
   }
