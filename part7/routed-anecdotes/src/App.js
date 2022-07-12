@@ -82,7 +82,8 @@ const CreateNew = (props) => {
   const content = useField('text')
   const author = useField('text')
   const info = useField('text')
-  // const reset = useField('text')
+
+  const reset = useField('text')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -92,6 +93,12 @@ const CreateNew = (props) => {
       info: info.value,
       votes: 0,
     })
+  }
+
+  const handleReset = (e) => {
+    e.preventDefault()
+    const fields = [content, author, info]
+    fields.map((field) => field.reset())
   }
 
   return (
@@ -111,7 +118,7 @@ const CreateNew = (props) => {
           <input name='info' {...info} />
         </div>
         <button>create</button>
-        {/* <button>reset</button> */}
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
   )
