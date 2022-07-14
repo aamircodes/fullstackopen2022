@@ -8,35 +8,47 @@ interface Result {
     average: number;
 }
 
-const calculator = (dailyHoursArr: Array<number>, target: number): Result => {
-    const totalHours = dailyHoursArr.reduce((acc, current) => {
-        return acc + current;
-    }, 0);
+const parseExerciseArguments = (args: Array<string>): Array<number> => {
+    args.slice(2).forEach((hours) => {
+        if (isNaN(Number(hours))) {
+            throw new Error('Provided values were not numbers!');
+        }
+    });
 
-    const average = totalHours / 7;
-    const difference = target - average;
+    return args.slice(2).map((hours) => Number(hours));
+};
+
+const calculateExercises = (args: Array<number>): Result => {
+    const target = args[0];
+    const dailyExerciseHours = args.slice(1);
+    const periodLength = dailyExerciseHours.length;
+    const trainingDays = dailyExerciseHours.filter((day) => day !== 0).length;
+    const average =
+        dailyExerciseHours.reduce((a, b) => a + b) / dailyExerciseHours.length;
+    const success = average >= target;
+    const diff = target - average;
 
     let rating;
     let ratingDescription;
 
     switch (true) {
-        case difference <= 0:
+        case diff <= 0:
             rating = 1;
-            ratingDescription = 'you have hit the target, well done!';
+            ratingDescription = "you've hit the target! keep it up!";
             break;
-        case difference <= 0.5:
+        case diff < 0.5:
             rating = 2;
             ratingDescription = 'not too bad but could be better';
             break;
         default:
             rating = 3;
-            ratingDescription = 'bad, you need to exercise more';
+            ratingDescription = "you've got to exercise more";
     }
 
     return {
-        periodLength: dailyHoursArr.length,
-        trainingDays: dailyHoursArr.filter((day) => day > 0).length,
-        success: average >= target,
+        periodLength,
+        trainingDays,
+        success,
         rating,
         ratingDescription,
         target,
@@ -44,4 +56,13 @@ const calculator = (dailyHoursArr: Array<number>, target: number): Result => {
     };
 };
 
-console.log(calculator([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+    const dailyExerciseHours = parseExerciseArguments(process.argv);
+    console.log(calculateExercises(dailyExerciseHours));
+} catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+        errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
+}
